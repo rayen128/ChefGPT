@@ -1,3 +1,8 @@
+'''
+Small script that scrapes JSONs files from the FlavourDB2 website.
+'''
+
+
 import json
 import requests
 
