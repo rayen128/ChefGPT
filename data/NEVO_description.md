@@ -4,6 +4,9 @@ This dataset contains various nutritional and composition details for different 
 
 ## Columns and Explanations:
 
+
+### General Columns
+
 - **NEVO-versie**: The version of the Dutch food composition table (NEVO).
 - **Voedingsmiddelgroep**: The food group (e.g., fruits, vegetables, meats).
 - **NEVO-code**: A unique code assigned to the food item.
@@ -14,6 +17,10 @@ This dataset contains various nutritional and composition details for different 
 - **Opmerking**: Additional notes or comments about the food item.
 - **Bevat sporen van**: Lists trace substances, such as allergens.
 - **Is verrijkt met**: Indicates if the food item is fortified with additional nutrients.
+
+
+### Nutritional Information
+
 - **ENERCJ**: Energy content in kilojoules (kJ).
 - **ENERCC**: Energy content in kilocalories (kcal).
 - **WATER**: Water content in grams.
