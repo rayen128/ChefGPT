@@ -1,8 +1,9 @@
 '''
 After generating/picking a list of stop words to remove (saved in stop_words.csv),
-this scripts creates a csv file called "NEVO_Joined",  
-linking the nutrition to the NEVO dataset. 
+this scripts creates a csv file called "NEVO_Joined",
+linking the nutrition to the NEVO dataset.
 '''
+
 
 import pandas as pd
 import json
@@ -43,12 +44,10 @@ flavour_df = pd.DataFrame(flavour_data,
                                    'entity_alias', 'entity_alias_synonyms'
                                    ])
 
-# flavourdf has multiple name columns
+
+# flavourdf has multiple name columns, so creat this list to possibly look at multiple
 name_columns = [
-    'entity_alias_basket',
-    'entity_alias_readable',
-    'entity_alias',
-    'entity_alias_synonyms'
+    'entity_alias_readable'
 ]
 
 
@@ -58,7 +57,6 @@ name_columns = [
 clean_nutrition_df(nutrition_df, flavour_df, name_columns)
 
 stop_words = pd.read_csv('stop_words.csv')['stop_word']
-stop_words = stop_words[:40]
 
 
 # Use helper function to remove stopwords
@@ -72,30 +70,47 @@ nutrition_df['cleaned_name'] = nutrition_df['Engelse naam/Food name'].apply(
 top_matches = []
 
 # Iterate through each cleaned_name in nutrition_df
-for idx, cleaned_name in enumerate(nutrition_df['cleaned_name']):
+for idx, cleaned_name in enumerate(nutrition_df['Engelse naam/Food name']):
 
     # Loop over all flavour_df columns
     for name_column in name_columns:
+
         # Get the top_n matches from flavour_df[name_column]
         matches = process.extract(
             cleaned_name,
             flavour_df[name_column].tolist(),
             limit=3,
-            scorer=fuzz.ratio
+            scorer=fuzz.partial_ratio
         )
+
         # Add the results to the list (including indexes from flavour_df)
         for match, score, match_index in matches:
-            top_matches.append({
+
+            current_match = {
                 'nutrition_index': idx,
                 'nutrition_name': cleaned_name,
-                'flavour_index': match_index,
+                'flavour_index': flavour_df.iloc[match_index]['entity_id'],
                 'flavour_name': match,
                 'fuzz_score': score,
                 'name_column': name_column
-            })
+            }
+
+            top_matches.append(current_match)
+
+            # print(f"Match = {match}")
+
+            # print(
+            #     f"Entity_id = {flavour_df.loc[flavour_df['entity_alias_readable'] == match]}")
+
+            # print(current_match)
+            # input("\nPress Enter to continue...\n")
+
 
 # Convert the results to a DataFrame for further analysis
 top_matches_df = pd.DataFrame(top_matches)
+
+# print(top_matches_df.head(4))
+
 
 # Transform the `top_matches_df` into a wide format
 
@@ -107,6 +122,7 @@ top_matches_df = top_matches_df.sort_values(
 # Keep only the top 3 matches per nutrition_index
 top_matches_df = top_matches_df.groupby('nutrition_index').head(3)
 
+
 # Pivot the DataFrame to make it wide - With help of ChatGPT
 top_matches_wide_df = top_matches_df.assign(rank=top_matches_df.groupby('nutrition_index').cumcount() + 1) \
     .pivot(index='nutrition_index', columns='rank') \
@@ -115,6 +131,14 @@ top_matches_wide_df = top_matches_df.assign(rank=top_matches_df.groupby('nutriti
 # Flatten the MultiIndex columns - With help of ChatGPT
 top_matches_wide_df.columns = ['_'.join(map(str, col)).strip('_')
                                for col in top_matches_wide_df.columns]
+
+
+# for index, row in top_matches_wide_df.iterrows():
+#     print(row)
+
+#     input("\nPress Enter to continue...\n")
+
+# print(top_matches_wide_df.head())
 
 ### Fuzzy Matching ###
 
@@ -145,6 +169,10 @@ perfect_scores_df.loc[:, 'flavour_index'] = np.select(
 
 # Create the DataFrame with nutrition_index and corresponding flavour_index (we'll use this for the next condition)
 result_df = perfect_scores_df[['nutrition_index', 'flavour_index']]
+
+# for row, index in result_df.iterrows():
+#     print(row)
+#     input("Click enter to continue...")
 
 # Remove the rows from the original df
 top_matches_wide_df = top_matches_wide_df[~top_matches_wide_df['nutrition_index'].isin(
@@ -202,12 +230,16 @@ fuzz_score_extracted = fuzz_score_filtered_df[[
 result_df = pd.concat([result_df, fuzz_score_extracted], ignore_index=True)
 
 
+# print(result_df.head(20))
+
+# print(f"Before: \n{nutrition_df.head(20)}")
+
+
 # Merge nutrition_df with result_df on 'NEVO-code' and 'nutrition_index'
 nutrition_df = nutrition_df.merge(result_df[['nutrition_index', 'flavour_index']],
-                                  left_on='NEVO-code',
+                                  left_index=True,
                                   right_on='nutrition_index',
                                   how='left')
-
 
 # Also save the corresponding 'entity_name' from the flavour_df
 nutrition_df = nutrition_df.merge(flavour_df[['entity_id', 'entity_alias_readable']],
@@ -219,11 +251,7 @@ nutrition_df = nutrition_df.merge(flavour_df[['entity_id', 'entity_alias_readabl
 # Drop the extra 'entity_id' column
 nutrition_df.drop(columns=['entity_id'], inplace=True)
 
-
-print(f"Amount of matches: {result_df.shape[0]}")
-
 # Check the updated nutrition_df
-print(nutrition_df.head())
-
+print(f'\nAfter:\n{nutrition_df.head(20)}')
 
 nutrition_df.to_csv("NEVO_Joined.csv", index=False)

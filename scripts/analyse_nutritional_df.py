@@ -86,7 +86,7 @@ for common_word in common_words:
                 cleaned_name,
                 flavour_df[name_column].tolist(),
                 limit=3,
-                scorer=fuzz.ratio
+                scorer=fuzz.partial_ratio
             )
             # Add the results to the list (including indexes from flavour_df)
             for match, score, match_index in matches:
