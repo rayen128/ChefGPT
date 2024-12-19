@@ -2,6 +2,8 @@
 
 This JSON file contains detailed information about different types of food, specifically about their chemical make-up. It lists various chemical compounds with flavor profiles, functional groups, and other molecular details. Each molecule has attributes such as its IUPAC name, common name, molecular weight, and flavor profiles (e.g., caramel, cocoa, nutty). The file is structured to provide a comprehensive overview of these molecules, their chemical properties, and their relevance to the flavor profile of bakery products.
 
+The file can be found [here](https://drive.google.com/drive/folders/1LWC3Z2t2s-kzQxeRheu12barWRCKMXCP) under the name `flavourDB2.json`.
+
 ### Key Fields:
 - **entity_alias_readable**: The name of the entity.
 - **entity_alias_synonyms**: Synonyms of the name.
