@@ -1,6 +1,6 @@
 # Common and Noise Words
 
-This folder contains two datasets, both derived from the `cleaned_name` column of the [NEVO Dataset](/DLiP-ChefGPT/data/Nutrition/). These datasets were used to analyze and improve the data matching process between the nutrition and flavor datasets.
+This folder contains two datasets, both derived from the `cleaned_name` column of the [NEVO Dataset](/Data/Nutrition/). These datasets were used to analyze and improve the data matching process between the nutrition and flavor datasets.
 
 ## Common Words
 
