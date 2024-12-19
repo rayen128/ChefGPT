@@ -35,8 +35,8 @@ This document contains a comprehensive list of references, libraries, datasets, 
 
 ## Articles and Research
 
-- **[PubMed - Article 1 for Macro Split](https://pubmed.ncbi.nlm.nih.gov/15107010/)**  
+- **[PubMed - Article 1 Regarding Nutrition](https://pubmed.ncbi.nlm.nih.gov/15107010/)**  
   Research article used for reference in the macro-nutrient splitting model.
 
-- **[Healthline - Article 2 for Macro Split](https://www.healthline.com/nutrition/best-macronutrient-ratio?utm_source=chatgpt.com)**  
+- **[Healthline - Article 2 Regarding Nutrition](https://www.healthline.com/nutrition/best-macronutrient-ratio?utm_source=chatgpt.com)**  
   Article used for insights into optimal macronutrient ratios for health and nutrition.
