@@ -39,4 +39,4 @@ nevo_df_names = nevo_df[['Engelse naam/Food name', 'flavour_name']]
 nevo_df_names.to_csv('chefgpt/resources/nevo_names.csv', index=False)
 output_path = 'chefgpt/resources/combined_flavour_nutrition.csv'
 combined_df.to_csv(output_path, index=False)
-print(f"Combined dataset saved to {output_path}")
+print(f"saved to {output_path}")
