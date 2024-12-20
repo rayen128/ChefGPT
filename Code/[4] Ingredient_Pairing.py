@@ -13,8 +13,6 @@ with open(recipes_data_path, 'r') as file:
     recipes_data = json.load(file)
 
 # Function to get molecule list
-
-
 def get_molecule_list(molecule_string):
     return set(molecule.strip() for molecule in molecule_string.split(','))
 
@@ -22,10 +20,9 @@ def get_molecule_list(molecule_string):
 combined_df['molecule_set'] = combined_df['molecule_list'].apply(
     get_molecule_list)
 
-# Nutrition columns
+# Nutrition columns and target macro nutrients
 nutrition_columns = ['PROT (g)', 'FAT (g)', 'CHO (g)']
 target_macros = {"protein": 30, "fat": 20, "carbohydrates": 50}
-# Maximum possible deviation for normalization
 max_deviation = sum(target_macros.values())
 
 # Weights for scoring components
@@ -33,15 +30,11 @@ W_MOLECULE = 0.5  # Weight for molecule overlap
 W_NUTRITION = 0.5  # Weight for nutrition
 
 # Function to calculate overlap between two sets of molecules
-
-
 def calculate_molecule_overlap(molecules1, molecules2):
     overlap = molecules1.intersection(molecules2)
     return len(overlap) / len(molecules1.union(molecules2))
 
 # Function to calculate average molecule overlap score
-
-
 def calculate_average_molecule_overlap(recipe_ingredients, new_ingredient_molecules, combined_df):
     overlaps = []
     for ing in recipe_ingredients:
@@ -54,8 +47,6 @@ def calculate_average_molecule_overlap(recipe_ingredients, new_ingredient_molecu
     return np.mean(overlaps) if overlaps else 0
 
 # Function to calculate molecule overlap loss
-
-
 def calculate_molecule_overlap_loss(overlap_score):
     return 1 - overlap_score  # Convert overlap to loss
 
@@ -68,11 +59,9 @@ def calculate_normalized_nutrition_loss(current_nutrition, ingredient_nutrition,
     }
     total = sum(updated_nutrition.values())
     if total == 0:
-        # Avoid division by zero if no nutrition data exists
         return float('inf')
     deviation = sum(abs(
         (updated_nutrition[key] / total * 100) - target_macros[key]) for key in target_macros)
-    # Normalize to a score between 0 and 1
     normalized_loss = deviation / max_deviation
     return normalized_loss
 
@@ -81,7 +70,6 @@ for recipe in tqdm(recipes_data, desc="Processing recipes"):
     matched_ingredients = recipe.get('matched_ingredients', [])
     current_nutrition = {"protein": 0, "fat": 0, "carbohydrates": 0}
 
-    # Aggregate current nutrition
     for ing in matched_ingredients:
         if isinstance(ing, dict) and 'nutrition' in ing:
             current_nutrition["protein"] += float(
@@ -125,7 +113,7 @@ for recipe in tqdm(recipes_data, desc="Processing recipes"):
         # Calculate total weighted loss
         total_loss = W_MOLECULE * log_molecule_loss + W_NUTRITION * log_nutrition_loss
 
-        # Track the best ingredient (lowest total loss)
+        # Track the best ingredient, through lowest total loss
         if total_loss < lowest_total_loss:
             lowest_total_loss = total_loss
             best_ingredient = {
