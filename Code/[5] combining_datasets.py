@@ -8,7 +8,7 @@ nevo_path = 'chefgpt/resources/NEVO_Joined_cleaned.csv'
 flavour_df = pd.read_csv(flavour_DB_path)
 nevo_df = pd.read_csv(nevo_path, sep=';')
 
-# Clean and tokenize both nutritional and flavour datasets
+# Clean and tokenize both nutritional and flavour datasets - with help of ChatGPT
 flavour_df['clean_ingredient'] = flavour_df['ingredient'].apply(
     lambda x: re.sub(r'[^a-zA-Z0-9\s]', '', str(x).lower().strip()))
 nevo_df['clean_flavour_name'] = nevo_df['flavour_name'].apply(
@@ -23,7 +23,7 @@ non_numeric_columns = nevo_df.select_dtypes(exclude='number').columns
 numeric_columns = nevo_df.select_dtypes(include='number').columns
 
 
-# grouping data in rows (based on ingredient names) 
+# grouping data in rows (based on ingredient names) - ** use was aided by ChatGPT
 nevo_df_grouped = (
     nevo_df.groupby(['clean_flavour_name', 'ID'], as_index=False)
     .agg({**{col: 'first' for col in non_numeric_columns}, **{col: 'mean' for col in numeric_columns}})
