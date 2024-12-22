@@ -12,7 +12,7 @@ combined_df = pd.read_csv(combined_dataset_path, low_memory=False)
 with open(recipes_data_path, 'r') as file:
     recipes_data = json.load(file)
 
-# created a function to get molecule list and applied it for a molecule df
+# Created a function to get molecule list and applied it for a molecule df
 def get_molecule_list(molecule_string):
     return set(molecule.strip() for molecule in molecule_string.split(','))
 
@@ -51,7 +51,7 @@ def calculate_molecule_overlap_loss(overlap_score):
     return 1 - overlap_score 
 
 
-# Normalized (nutrition) loss calculation
+# Normalizd (nutrition) loss calculation
 def calculate_normalized_nutrition_loss(current_nutrition, ingredient_nutrition, target_macros):
     updated_nutrition = {
         key: current_nutrition.get(key, 0) + ingredient_nutrition.get(key, 0)
