@@ -8,7 +8,7 @@ from tqdm import tqdm #suggested by chat-gpt to get an indication of running tim
 combined_dataset_path = 'chefgpt/resources/combined_flavour_nutrition.csv'
 recipes_data_path = 'chefgpt/resources/matched_recipe_data_with_common_molecules.json'
 
-combined_df = pd.read_csv(combined_dataset_path, low_memory=False)
+combined_df = pd.read_csv(combined_dataset_path, low_memory=False) 
 with open(recipes_data_path, 'r') as file:
     recipes_data = json.load(file)
 
@@ -34,7 +34,7 @@ def calculate_molecule_overlap(molecules1, molecules2):
     overlap = molecules1.intersection(molecules2)
     return len(overlap) / len(molecules1.union(molecules2))
 
-# Function to calculate average molecule overlap score for each ingredient and recipe ingredients
+# Function to calculate average molecule overlap score for each ingredient and recipe ingredients -  with help 
 def calculate_average_molecule_overlap(recipe_ingredients, new_ingredient_molecules, combined_df):
     overlaps = []
     for ing in recipe_ingredients:
@@ -65,7 +65,7 @@ def calculate_normalized_nutrition_loss(current_nutrition, ingredient_nutrition,
     return normalized_loss
 
 
-for recipe in tqdm(recipes_data, desc="Processing recipes"): #tqdm used due to long running time, in order to get an indication of how long this process would take
+for recipe in tqdm(recipes_data, desc="Processing recipes"): #tqdm used due to long running time, in order to get an indication of how long this process would take - error handling aided by ChatGPT
     matched_ingredients = recipe.get('matched_ingredients', [])
     current_nutrition = {"protein": 0, "fat": 0, "carbohydrates": 0}
     for ing in matched_ingredients:
