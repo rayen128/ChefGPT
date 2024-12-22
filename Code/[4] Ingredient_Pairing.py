@@ -34,7 +34,7 @@ def calculate_molecule_overlap(molecules1, molecules2):
     overlap = molecules1.intersection(molecules2)
     return len(overlap) / len(molecules1.union(molecules2))
 
-# Function to calculate average molecule overlap score for each ingredient and recipe ingredients -  with help 
+# Function to calculate average molecule overlap score for each ingredient and recipe ingredients -  with help from ChatGPT
 def calculate_average_molecule_overlap(recipe_ingredients, new_ingredient_molecules, combined_df):
     overlaps = []
     for ing in recipe_ingredients:
