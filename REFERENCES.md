@@ -40,3 +40,6 @@ This document contains a comprehensive list of references, libraries, datasets, 
 
 11. **[Healthline - Article 2 Regarding Nutrition](https://www.healthline.com/nutrition/best-macronutrient-ratio?utm_source=chatgpt.com)**  
   Article used for insights into optimal macronutrient ratios for health and nutrition.
+
+12. **[FlavourDB2 & Flavour Pairing Article](https://ift.onlinelibrary.wiley.com/doi/10.1111/1750-3841.17298?af=R)
+    Goel et al. (2024) describes what it means for ingredients to 'pair' and describes the database we used for this.
