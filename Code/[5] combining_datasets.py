@@ -23,7 +23,7 @@ non_numeric_columns = nevo_df.select_dtypes(exclude='number').columns
 numeric_columns = nevo_df.select_dtypes(include='number').columns
 
 
-# grouping data in rows (based on ingredient names), to reduce dimensionality. 
+# grouping data in rows (based on ingredient names) 
 nevo_df_grouped = (
     nevo_df.groupby(['clean_flavour_name', 'ID'], as_index=False)
     .agg({**{col: 'first' for col in non_numeric_columns}, **{col: 'mean' for col in numeric_columns}})
