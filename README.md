@@ -5,10 +5,10 @@ Welcome to the DLiP-ChefGPT project repository! This repository is the home for 
 ## Quick Links
 
 - **[References](REFERENCES.md)**  
-  A comprehensive list of all the libraries, datasets, and articles used throughout the project.
+  An overview of all the libraries, datasets, and articles used throughout the project.
 
 - **[Loss Function Explanation](Loss_Function.pdf)**  
-  An more detailed explanation of the loss function used in the ChefGPT model.
+  A more detailed explanation of the loss function used in the ChefGPT model.
 
 - **[Overview of the Data](Data/)**  
   Explore the datasets used for training and testing the ChefGPT model.
